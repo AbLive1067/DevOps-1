@@ -1,0 +1,20 @@
+output "vpc_id" {
+  value = module.vpc.vpc_id
+}
+
+output "public_subnet_ids" {
+  value = module.vpc.public_subnet_ids
+}
+
+output "public_route_table_id" {
+  value = module.vpc.public_route_table_id
+}
+
+output "public_subnet_route_association_ids" {
+  value = module.vpc.public_subnet_route_association_ids
+}
+
+output "sg_id" {
+  value = module.vpc.sg_id
+}
+
