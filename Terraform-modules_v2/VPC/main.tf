@@ -101,7 +101,7 @@ resource "aws_nat_gateway" "public_subnet_nat_gateway" {
   ]
 
   tags = {
-    Name = "${var.nat_name}_${aws_subnet.public_subnet[count.index].tags[Name]}"
+    Name = "${var.nat_name}_${aws_subnet.public_subnet[count.index].tags["Name"]}"
   }
 }
 

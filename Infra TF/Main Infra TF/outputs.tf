@@ -6,7 +6,7 @@ output "vpc_id" {
 output "public_subnet_ids" {
   value = module.vpc.public_subnet_ids[*]
 }
-output "igw_id"{
+output "igw_id" {
   value = module.vpc.igw_id
 }
 output "eip_ids" {
@@ -35,5 +35,14 @@ output "private_subnet_route_association_ids" {
 }
 
 
+#------------------Security groups Outputs-------------------------
 
-
+output "manager_sg_id" {
+  value = module.manager_sg.sg_id
+}
+output "k8s_master_sg_id" {
+  value = module.k8s_master_sg.sg_id
+}
+output "k8s_slave_sg_id" {
+  value = module.k8s_slave_sg.sg_id
+}

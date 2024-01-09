@@ -10,21 +10,22 @@ variable "vpc_id" {
   type = string
 }
 
-variable "ingress_ports" {
-  description = "A list of ingress ports for the security group."
-  type        = list(number)
+
+variable "rules" {
+  description = "A map of rule names to their properties"
+  type        = map(list(string))
 }
 
-
-variable "egress_ports" {
-  description = "A list of egress ports for the security group."
-  type        = list(number)
+variable "ingress_rules" {
+  description = "A list of rule names for ingress"
+  type        = list(string)
 }
 
-variable "cidr_blocks" {
-  description = "CIDR blocks for ingress and egress rules."
-
+variable "egress_rules" {
+  description = "A list of rule names for egress"
+  type        = list(string)
 }
 
-variable "security_group_list" {
+variable "sg_name" {
+  type = string
 }

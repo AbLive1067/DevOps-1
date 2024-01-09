@@ -1,33 +1,33 @@
-# modules/security_group/main.tf
-
 resource "aws_security_group" "sg" {
   name        = var.name
   description = var.description
-  vpc_id      = var.vpc_id
+  vpc_id = var.vpc_id
 
-  ingress = [
-    for port in var.ingress_ports : {
-      from_port   = port
-      to_port     = port
-      protocol    = "tcp"
-      cidr_blocks = var.cidr_blocks
-      security_groups = var.security_group_list
-      
+  dynamic "ingress" {
+    for_each = var.ingress_rules
+    content {
+      from_port        = var.rules[ingress.value][0]
+      to_port          = var.rules[ingress.value][1]
+      protocol         = var.rules[ingress.value][2]
+      description      = var.rules[ingress.value][3]
+      cidr_blocks      = length(var.rules[ingress.value]) > 4 ? var.rules[ingress.value][4] : []
+      security_groups  = length(var.rules[ingress.value]) > 5 ? var.rules[ingress.value][5] : []
     }
-  ]
-
-  egress = [
-    for port in var.egress_ports : {
-      from_port   = port
-      to_port     = port
-      protocol    = "tcp"
-      cidr_blocks = var.cidr_blocks
-      security_groups = var.security_group_list
-
-    }
-  ]
-
-  tags = {
-    Name = "${var.name}-Infra"
   }
+
+  dynamic "egress" {
+    for_each = var.egress_rules
+    content {
+      from_port        = var.rules[egress.value][0]
+      to_port          = var.rules[egress.value][1]
+      protocol         = var.rules[egress.value][2]
+      description      = var.rules[egress.value][3]
+      cidr_blocks      = length(var.rules[egress.value]) > 4 ? var.rules[egress.value][4] : []
+      security_groups  = length(var.rules[egress.value]) > 5 ? var.rules[egress.value][5] : []
+    }
+  }
+  tags = {
+    Name = var.sg_name
+  }
+  
 }

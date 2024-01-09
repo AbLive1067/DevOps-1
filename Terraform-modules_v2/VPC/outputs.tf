@@ -25,8 +25,8 @@ output "public_route_table_id" {
 output "private_route_table_ids" {
   value = aws_route_table.private_rt[*].id
 }
-output "public_subnet_route_association_id" {
-  value = aws_route_table_association.public_subnet_route_association.id
+output "public_subnet_route_association_ids" {
+  value = aws_route_table_association.public_subnet_route_association[*].id
 }
 output "private_subnet_route_association_ids"{
   value = aws_route_table_association.private_subnet_route_association[*].id
