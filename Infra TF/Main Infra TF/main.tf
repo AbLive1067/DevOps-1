@@ -24,35 +24,50 @@ module "vpc" {
 module "manager_sg" {
   source = "../../Terraform-modules_v2/Security Group"
 
-  name          = var.mana_name        #"Manager sg"
-  description   = var.mana_description #"Manager security group"
-  vpc_id        = module.vpc.vpc_id
-  sg_name       = var.mana_sg_tag_name #"manager_sg"
-  rules         = var.rules
-  ingress_rules = var.manager_ingress_rules
-  egress_rules  = var.manager_egress_rules
+  name                    = var.manager_sg_name        #"Manager sg"
+  description             = var.manager_sg_description #"Manager security group"
+  vpc_id                  = module.vpc.vpc_id
+  sg_name                 = var.manager_sg_tag_name #"manager_sg"
+  rules                   = var.rules
+  ingress_rules           = var.manager_sg_ingress_rules
+  ingress_cidr_blocks     = var.manager_sg_ingress_cidr_blocks
+  ingress_security_groups = []
+  egress_rules            = var.manager_sg_egress_rules
+  egress_security_groups  = []
+  egress_cidr_blocks      = var.manager_sg_egress_cidr_blocks
+
 }
 
 module "k8s_master_sg" {
   source = "../../Terraform-modules_v2/Security Group"
 
-  name          = var.mast_name
-  description   = var.mast_description
-  vpc_id        = module.vpc.vpc_id
-  sg_name       = var.mast_sg_tag_name
-  rules         = var.rules
-  ingress_rules = var.k8s_master_ingress_rules
-  egress_rules  = var.k8s_master_egress_rules
+  name                    = var.k8s_master_sg_name
+  description             = var.k8s_master_sg_description
+  vpc_id                  = module.vpc.vpc_id
+  sg_name                 = var.k8s_master_sg_tag_name
+  rules                   = var.rules
+  ingress_rules           = var.k8s_master_sg_ingress_rules
+  ingress_cidr_blocks     = var.k8s_master_sg_ingress_cidr_blocks
+  ingress_security_groups = []
+  egress_rules            = var.k8s_master_sg_egress_rules
+  egress_security_groups  = []
+  egress_cidr_blocks      = var.k8s_master_sg_egress_cidr_blocks
+
 }
 
 module "k8s_slave_sg" {
   source = "../../Terraform-modules_v2/Security Group"
 
-  name          = var.slav_name
-  description   = var.slav_description
-  vpc_id        = module.vpc.vpc_id
-  sg_name       = var.slav_sg_tag_name
-  rules         = var.rules
-  ingress_rules = var.k8s_slave_ingress_rules
-  egress_rules  = var.k8s_slave_egress_rules
+  name                    = var.k8s_slave_sg_name
+  description             = var.k8s_slave_sg_description
+  vpc_id                  = module.vpc.vpc_id
+  sg_name                 = var.k8s_slave_sg_tag_name
+  rules                   = var.rules
+  ingress_rules           = var.k8s_slave_sg_ingress_rules
+  ingress_cidr_blocks     = var.k8s_slave_sg_ingress_cidr_blocks
+  ingress_security_groups = [module.manager_sg.sg_id, module.manager_sg.sg_id]
+  egress_rules            = var.manager_sg_egress_rules
+  egress_security_groups  = []
+  egress_cidr_blocks      = var.k8s_slave_sg_egress_cidr_blocks
+
 }
